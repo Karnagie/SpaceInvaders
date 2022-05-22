@@ -8,5 +8,7 @@ namespace Input
         public Action OnShoot { get; set; }
         
         Vector2 GetVelocity();
+
+        void Clear();
     }
 }

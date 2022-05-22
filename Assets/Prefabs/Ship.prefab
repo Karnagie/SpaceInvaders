@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 7059844512226661984}
   - component: {fileID: 7059844512226661985}
   - component: {fileID: 366144318489264967}
+  - component: {fileID: 7058130297984762665}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -128,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 0.5
+  _drop: {fileID: 7058130297984762665}
 --- !u!61 &366144318489264967
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -154,3 +156,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.7044994, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7058130297984762665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7059844512226661987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c39c5b63f7a4e7ba0fd4ffe84e06cb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dropChance: 0.75
+  _drop:
+  - {fileID: 7932655761851010329, guid: d3e59456b962cd54f863a6f65a68e687, type: 3}

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AliveObjects;
 using UnityEngine;
 using Zenject;
@@ -9,9 +10,9 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            IPausable[] pausables = FindObjectsOfType<MonoBehaviour>().OfType<IPausable>().ToArray();
+            List<IPausable> pausables = FindObjectsOfType<MonoBehaviour>().OfType<IPausable>().ToList();
 
-            Container.Bind<IPausable[]>().FromInstance(pausables).AsSingle();
+            Container.Bind<List<IPausable>>().FromInstance(pausables).AsSingle();
         }
     }
 }

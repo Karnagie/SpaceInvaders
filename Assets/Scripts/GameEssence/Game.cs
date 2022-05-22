@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using AliveObjects;
+using AliveObjects.PlayerEssence;
+using Input;
+using ModestTree;
+using PickUpEssence;
 using UI.Buttons;
 using UI.TestEssence;
 using UnityEngine;
@@ -9,9 +14,10 @@ namespace GameEssence
 {
     public class Game : MonoBehaviour
     {
-        [Inject] private IPausable[] _pausables;
+        [Inject] private List<IPausable> _pausables;
         [Inject] private Remainder _remainder;
         [Inject] private RepeatButton _repeat;
+        [Inject] private IInputHandler _input;
 
         private void Awake()
         {
@@ -33,6 +39,16 @@ namespace GameEssence
                 }
                 _repeat.Show();
             }
+        }
+
+        private void OnDestroy()
+        {
+            _input.Clear();
+        }
+
+        public void AddPausable(IPausable pausable)
+        {
+            _pausables.Add(pausable);
         }
     }
 }

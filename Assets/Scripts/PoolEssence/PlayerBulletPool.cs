@@ -1,43 +1,49 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AliveObjects.PlayerEssence;
+using ShootingEssence;
 using UnityEngine;
 
 namespace PoolEssence
 {
-    public class PlayerBulletPool : IPool<PlayerBullet>
+    public class PlayerBulletPool : IPool<Bullet>
     {
-        private List<PoolElement<PlayerBullet>> _objects;
-        private GameObject _prefab;
+        private List<PoolElement<Bullet>> _objects;
+        private Bullet _prefab;
 
-        public PlayerBulletPool(GameObject prefab)
+        public PlayerBulletPool(Bullet prefab)
         {
-            _objects = new List<PoolElement<PlayerBullet>>();
+            _objects = new List<PoolElement<Bullet>>();
             _prefab = prefab;
         }
 
-        public PlayerBullet Get()
+        public void ChangePrefab(Bullet newType)
+        {
+            _prefab = newType;
+        }
+
+        public Bullet Get()
         {
             return GetInternal(null, Vector3.zero);
         }
         
-        public PlayerBullet Get(Transform parent, Vector3 position)
+        public Bullet Get(Transform parent, Vector3 position)
         {
             return GetInternal(parent, position);
         }
 
-        public void Return(PlayerBullet obj)
+        public void Return(Bullet obj)
         {
-            PoolElement<PlayerBullet> poolElement = _objects.First(o => o.Obj == obj);
+            PoolElement<Bullet> poolElement = _objects.First(o => o.Obj == obj);
             poolElement.Obj.gameObject.SetActive(false);
             poolElement.IsFree = true;
         }
 
-        private PlayerBullet GetInternal(Transform parent, Vector3 position)
+        private Bullet GetInternal(Transform parent, Vector3 position)
         {
             foreach (var poolObject in _objects)
             {
-                if (poolObject.IsFree)
+                if (poolObject.IsFree && poolObject.GetType() == _prefab.GetType())
                 {
                     poolObject.Obj.gameObject.SetActive(true);
                     poolObject.Obj.transform.SetParent(parent);
@@ -47,17 +53,17 @@ namespace PoolEssence
                     return poolObject.Obj;
                 }
             }
-            GameObject g = MonoBehaviour.Instantiate(_prefab, parent);
+            GameObject g = MonoBehaviour.Instantiate(_prefab.gameObject, parent);
             g.transform.position = position;
             
-            PoolElement<PlayerBullet> newElement = new PoolElement<PlayerBullet>();
-            newElement.Obj = g.GetComponent<PlayerBullet>();
+            PoolElement<Bullet> newElement = new PoolElement<Bullet>();
+            newElement.Obj = g.GetComponent<Bullet>();
             newElement.Obj.gameObject.SetActive(true);
             newElement.IsFree = false;
             newElement.Obj.Init(this);
             _objects.Add(newElement);
             
-            return g.GetComponent<PlayerBullet>();
+            return g.GetComponent<Bullet>();
         }
     }
 

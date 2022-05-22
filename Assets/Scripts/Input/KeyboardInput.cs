@@ -20,5 +20,10 @@ namespace Input
         {
             return _actions.Player.Velocity.ReadValue<Vector2>();
         }
+
+        public void Clear()
+        {
+            _actions.Dispose();
+        }
     }
 }

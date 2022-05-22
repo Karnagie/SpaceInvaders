@@ -11,7 +11,7 @@ namespace UI.Buttons
     {
         [SerializeField] private float _fadeSpeed = 0.5f;
         
-        [Inject] private IPausable[] _pausables;
+        [Inject] private List<IPausable> _pausables;
 
         protected override void OnClick()
         {

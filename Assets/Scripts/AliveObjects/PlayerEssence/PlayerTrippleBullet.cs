@@ -1,20 +1,28 @@
-﻿using System;
-using PoolEssence;
+﻿using PoolEssence;
 using ShootingEssence;
 using UnityEngine;
 
 namespace AliveObjects.PlayerEssence
 {
-    public class PlayerBullet : Bullet, IMover
+    public class TripleBullet : Bullet, IMover
     {
         [SerializeField] private float _speed = 2f;
         [SerializeField] private LayerMask _ignore;
 
-        private void Update()
+        private void Update() => Move();
+
+        public override void Pause()
         {
-            if (!IsPaused) Move();
+            IsPaused = true;
         }
 
+        public override void Unpause()
+        {
+            IsPaused = false;
+        }
+
+        public bool IsPaused { get; private set; }
+        
         public override void Kill(IKillable target)
         {
             target.Kill();
@@ -33,5 +41,12 @@ namespace AliveObjects.PlayerEssence
                 Pool.Return(this);
             }
         }
+
+        public void Init(IPool<Bullet> pool)
+        {
+            Pool = pool;
+        }
+
+        public IPool<Bullet> Pool { get; private set; }
     }
 }
